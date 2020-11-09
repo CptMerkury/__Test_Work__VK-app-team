@@ -9,6 +9,7 @@ import Home from './panels/Home';
 const App = () => {
 	const [activePanel, setActivePanel] = useState('home');
 	const [fetchedUser, setUser] = useState(null);
+	const [friendList, setFriend] = useState(null);
 	const [popout, setPopout] = useState(<ScreenSpinner size='large' />);
 
 	useEffect(() => {
@@ -21,6 +22,13 @@ const App = () => {
 		});
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
+			const token = await bridge.send("VKWebAppGetAuthToken", {"app_id": 7655926, "scope": "friends"});
+			const friendList = await bridge.send("VKWebAppCallAPIMethod", {"method": "friends.get", "request_id": "32test", "params": {"v":"5.124", "access_token":token.access_token, "fields": "sex,photo_200, bdate"}});
+			// console.log(friendList.response.items)
+			for (let item in friendList.response.items){
+				console.log(friendList.response.items[item])
+			}
+			setFriend(friendList.response.items)
 			setUser(user);
 			setPopout(null);
 		}
@@ -33,7 +41,7 @@ const App = () => {
 
 	return (
 		<View activePanel={activePanel} popout={popout}>
-			<Home id='home' fetchedUser={fetchedUser} go={go} />
+			<Home id='home' fetchedUser={fetchedUser} friendList={friendList} go={go}/>
 		</View>
 	);
 }

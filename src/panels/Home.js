@@ -4,11 +4,12 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
-import {Search} from "@vkontakte/vkui";
+import {Div, Search} from "@vkontakte/vkui";
 
-const Home = ({id, go, fetchedUser}) => {
-    const getSexText = () => {
-        switch (fetchedUser.sex) {
+const Home = ({id, fetchedUser, friendList}) => {
+
+    const getSexText = (prop) => {
+        switch (prop.sex) {
             case 1:
                 return 'Female';
             case 2:
@@ -27,68 +28,26 @@ const Home = ({id, go, fetchedUser}) => {
         })() < birth.getTime()) ? 0 : 1;
         return now.getFullYear() - birth.getFullYear() - beforeBirth;
     }
+    const getAnimalsContent = prop => prop.map(item => (
+        <Cell before={item.photo_200 ? <Avatar src={item.photo_200}/> : null}
+              description={`${getSexText(item)} ${getAge(item.bdate)}`}>
+            {`${item.last_name} ${item.first_name}`}
+        </Cell>
+
+    ));
     return (
         <Panel id={id}>
             <PanelHeader>Searching</PanelHeader>
             <Group>
                 <Search/>
             </Group>
-            {fetchedUser &&
+            {fetchedUser && friendList &&
             <Group title="User Data Fetched with VK Bridge">
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
+                <Cell before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
+                      description={`${getSexText(fetchedUser)} ${getAge(fetchedUser.bdate)}`}>
                     {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
                 </Cell>
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
-                </Cell>
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
-                </Cell>
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
-                </Cell>
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
-                </Cell>
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
-                </Cell>
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
-                </Cell>
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
-                </Cell>
-                <Cell
-                    before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                    description={`${getSexText()} ${getAge(fetchedUser.bdate)}`}
-                >
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
-                </Cell>
+                {getAnimalsContent(friendList)}
             </Group>}
         </Panel>
     )
