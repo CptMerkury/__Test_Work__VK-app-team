@@ -4,7 +4,7 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
-import {Div, Search} from "@vkontakte/vkui";
+import {Search} from "@vkontakte/vkui";
 
 const Home = ({id, fetchedUser, friendList}) => {
 
@@ -28,7 +28,8 @@ const Home = ({id, fetchedUser, friendList}) => {
         })() < birth.getTime()) ? 0 : 1;
         return now.getFullYear() - birth.getFullYear() - beforeBirth;
     }
-    const getAnimalsContent = prop => prop.map(item => (
+
+    const getFriendsList = prop => prop.map(item => (
         <Cell before={item.photo_200 ? <Avatar src={item.photo_200}/> : null}
               description={`${getSexText(item)} ${getAge(item.bdate)}`}>
             {`${item.last_name} ${item.first_name}`}
@@ -47,7 +48,7 @@ const Home = ({id, fetchedUser, friendList}) => {
                       description={`${getSexText(fetchedUser)} ${getAge(fetchedUser.bdate)}`}>
                     {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
                 </Cell>
-                {getAnimalsContent(friendList)}
+                {getFriendsList(friendList)}
             </Group>}
         </Panel>
     )
