@@ -4,7 +4,8 @@ import PanelHeader from '@vkontakte/vkui/dist/components/PanelHeader/PanelHeader
 import Group from '@vkontakte/vkui/dist/components/Group/Group';
 import Cell from '@vkontakte/vkui/dist/components/Cell/Cell';
 import Avatar from '@vkontakte/vkui/dist/components/Avatar/Avatar';
-import {Search} from "@vkontakte/vkui";
+import Icon24Article from '@vkontakte/icons/dist/24/article';
+import {Search, FixedLayout, Div, withModalRootContext} from "@vkontakte/vkui";
 
 const Home = ({id, fetchedUser, friendList}) => {
 
@@ -39,17 +40,21 @@ const Home = ({id, fetchedUser, friendList}) => {
     return (
         <Panel id={id}>
             <PanelHeader>Searching</PanelHeader>
-            <Group>
-                <Search/>
-            </Group>
-            {fetchedUser && friendList &&
-            <Group title="User Data Fetched with VK Bridge">
-                <Cell before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
-                      description={`${getSexText(fetchedUser)} ${getAge(fetchedUser.bdate)}`}>
-                    {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
+            <FixedLayout vertical={"top"}>
+                    <Search/>
+            </FixedLayout>
+            <Div style={{paddingTop: 25}}>
+                <Cell>
+                    {fetchedUser && friendList &&
+                    <Group title="User Data Fetched with VK Bridge">
+                        <Cell before={fetchedUser.photo_200 ? <Avatar src={fetchedUser.photo_200}/> : null}
+                              description={`${getSexText(fetchedUser)} ${getAge(fetchedUser.bdate)}`}>
+                            {`${fetchedUser.last_name} ${fetchedUser.first_name}`}
+                        </Cell>
+                        {getFriendsList(friendList)}
+                    </Group>}
                 </Cell>
-                {getFriendsList(friendList)}
-            </Group>}
+            </Div>
         </Panel>
     )
 };
