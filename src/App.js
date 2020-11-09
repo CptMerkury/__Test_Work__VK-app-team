@@ -23,11 +23,7 @@ const App = () => {
 		async function fetchData() {
 			const user = await bridge.send('VKWebAppGetUserInfo');
 			const token = await bridge.send("VKWebAppGetAuthToken", {"app_id": 7655926, "scope": "friends"});
-			const friendList = await bridge.send("VKWebAppCallAPIMethod", {"method": "friends.get", "request_id": "32test", "params": {"v":"5.124", "access_token":token.access_token, "fields": "sex,photo_200, bdate"}});
-			// console.log(friendList.response.items)
-			for (let item in friendList.response.items){
-				console.log(friendList.response.items[item])
-			}
+			const friendList = await bridge.send("VKWebAppCallAPIMethod", {"method": "friends.get", "request_id": "32test", "params": {"v":"5.124", "access_token":token.access_token, "fields": "sex,photo_200, bdate"}})
 			setFriend(friendList.response.items)
 			setUser(user);
 			setPopout(null);
